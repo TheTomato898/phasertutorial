@@ -3,6 +3,7 @@ import { SCENE_KEYS } from './common/scene-keys.js';
 import { GameScene } from './scenes/game-scene.js';
 import { PreloadScene } from './scenes/preload-scene.js';
 
+//how to render, settings, ...
 /** @type {Phaser.Types.Core.GameConfig} */
 const gameConfig = {
   type: Phaser.AUTO,
@@ -16,10 +17,11 @@ const gameConfig = {
     mode: Phaser.Scale.FIT,
   },
   backgroundColor: '#000000',
-};
+}; 
 
-const game = new Phaser.Game(gameConfig);
+const game = new Phaser.Game(gameConfig); //new phaser game
 
-game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene);
+//scenes??
+game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene); 
 game.scene.add(SCENE_KEYS.GAME_SCENE, GameScene);
 game.scene.start(SCENE_KEYS.PRELOAD_SCENE);
