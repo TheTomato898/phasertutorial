@@ -2,6 +2,13 @@ import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from '../common/scene-keys.js';
 import { ASSET_KEYS } from '../common/assets.js';
 
+const textConfig = {
+  fontSize: '40px',
+  color: '#ffffff',
+  stroke: '#192dff',
+  strokeThickness: 6,
+};
+
 export class GameScene extends Phaser.Scene {
   #cursorKeys;
   #player;
@@ -11,6 +18,11 @@ export class GameScene extends Phaser.Scene {
   #fallingObjectSpeed;
   #score;
   #scoreTextGameObject;
+  #misses;
+  #maxMisses;
+  #isGameOver;
+  #timerEvent;
+  #livesTextGameObject;
 
   constructor() {
     super({
@@ -22,6 +34,9 @@ export class GameScene extends Phaser.Scene {
     this.#playerSpeed = 500;
     this.#fallingObjectSpeed = 200;
     this.#score = 0;
+    this.#misses = 0;
+    this.#maxMisses = 3;
+    this.#isGameOver = false;
   }
 
   /**
@@ -42,22 +57,16 @@ export class GameScene extends Phaser.Scene {
     this.#fallingObjects = [];
 
     this.#fallingObjectFrames = Object.keys(this.textures.get(ASSET_KEYS.OBJECTS).frames).filter(
-      (name) => name !== '__Base',
+      (name) => name !== '__BASE',
     );
 
-    this.time.addEvent({
+    this.#timerEvent = this.time.addEvent({
       delay: 1000,
       callback: this.#spawnFallingObject,
       callbackScope: this,
       loop: true,
     });
 
-    const textConfig = {
-      fontSize: '40px',
-      color: '#fff700',
-      stroke: '#000000',
-      strokeThickness: 6,
-    };
     const scoreTextPrefix = (this.#scoreTextGameObject = this.add.text(10, 10, 'Score:', textConfig));
     this.#scoreTextGameObject = this.add.text(
       scoreTextPrefix.x + scoreTextPrefix.width,
@@ -65,9 +74,20 @@ export class GameScene extends Phaser.Scene {
       `${this.#score}`,
       textConfig,
     );
+
+    const livesTextPrefix = (this.#livesTextGameObject = this.add.text(10, 60, 'Lives:', textConfig));
+    this.#livesTextGameObject = this.add.text(
+      livesTextPrefix.x + livesTextPrefix.width,
+      livesTextPrefix.y,
+      `${this.#maxMisses - this.#misses}`,
+      textConfig,
+    );
   }
 
   update(time, delta) {
+    if (this.#isGameOver) {
+      return;
+    }
     //allow player to move
     const moveStep = this.#playerSpeed * (delta / 1000);
     if (this.#cursorKeys.left.isDown) {
@@ -98,7 +118,13 @@ export class GameScene extends Phaser.Scene {
       if (obj.y > this.scale.height) {
         obj.destroy();
         this.#fallingObjects.splice(i, 1);
+        this.#misses += 1;
+        this.#livesTextGameObject.setText(`${this.#maxMisses - this.#misses}`);
       }
+    }
+
+    if (this.#misses >= this.#maxMisses) {
+      this.#handleGameOver();
     }
   }
 
@@ -108,5 +134,14 @@ export class GameScene extends Phaser.Scene {
       .image(Phaser.Math.RND.between(50, this.scale.width - 50), 0, ASSET_KEYS.OBJECTS, randomFrame)
       .setScale(0.75);
     this.#fallingObjects.push(obj);
+  }
+
+  #handleGameOver() {
+    this.#isGameOver = true;
+    this.#timerEvent.remove();
+    this.add.text(this.scale.width / 2, this.scale.height / 2, 'Game Over', textConfig).setOrigin(0.5);
+    this.input.once(Phaser.Input.Events.POINTER_DOWN, () => {
+      this.scene.restart();
+    });
   }
 }
