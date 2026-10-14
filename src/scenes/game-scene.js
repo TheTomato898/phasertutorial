@@ -31,8 +31,8 @@ export class GameScene extends Phaser.Scene {
   }
 
   init() {
-    this.#playerSpeed = 500;
-    this.#fallingObjectSpeed = 200;
+    this.#playerSpeed = 800;
+    this.#fallingObjectSpeed = 400;
     this.#score = 0;
     this.#misses = 0;
     this.#maxMisses = 3;

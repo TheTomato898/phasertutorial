@@ -7,7 +7,7 @@ export const ASSET_KEYS = Object.freeze({
 export const IMAGE_ASSETS = [
   {
     assetKey: ASSET_KEYS.BACKGROUND,
-    path: 'assets/images/background.png',
+    path: 'assets/images/background_image.png',
   },
   {
     assetKey: ASSET_KEYS.JAR,
