@@ -4,9 +4,9 @@ import { ASSET_KEYS } from '../common/assets.js';
 
 const textConfig = {
   fontSize: '40px',
-  color: '#ffffff',
-  stroke: '#192dff',
-  strokeThickness: 6,
+  color: '#fff',
+  stroke: '#FF5F1F',
+  strokeThickness: 2,
 };
 
 export class GameScene extends Phaser.Scene {
@@ -50,7 +50,10 @@ export class GameScene extends Phaser.Scene {
     //add game background
     this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND);
     //add player
-    this.#player = this.add.image(width / 2, height, ASSET_KEYS.JAR).setDepth(1);
+    this.#player = this.add
+      .image(width / 2, height + height / 25, ASSET_KEYS.JAR)
+      .setDepth(1)
+      .setScale(0.9);
     //add keyboard support
     this.#cursorKeys = this.input.keyboard.createCursorKeys();
 

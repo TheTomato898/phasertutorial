@@ -11,14 +11,14 @@ export const IMAGE_ASSETS = [
   },
   {
     assetKey: ASSET_KEYS.JAR,
-    path: 'assets/images/jar.png',
+    path: 'assets/images/neon_jar.png',
   },
 ];
 
 export const TEXTURE_ATLAS_ASSETS = [
   {
     assetKey: ASSET_KEYS.OBJECTS,
-    textureURL: 'assets/images/spritesheet.png',
+    textureURL: 'assets/images/neon_spritesheet.png',
     atlasURL: 'assets/images/spritesheet.json',
   },
 ];
