@@ -19,6 +19,6 @@ export const TEXTURE_ATLAS_ASSETS = [
   {
     assetKey: ASSET_KEYS.OBJECTS,
     textureURL: 'assets/images/neon_spritesheet.png',
-    atlasURL: 'assets/images/spritesheet.json',
+    atlasURL: 'assets/images/neon_spritesheet.json',
   },
 ];
