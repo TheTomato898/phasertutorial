@@ -99,6 +99,7 @@ export class GameScene extends Phaser.Scene {
       this.#player.x += moveStep;
     }
 
+    //screen border
     if (this.#player.x - this.#player.displayWidth / 2 < 0) {
       this.#player.x = this.#player.displayWidth / 2;
     } else if (this.#player.x + this.#player.displayWidth / 2 > this.scale.width) {
@@ -135,8 +136,9 @@ export class GameScene extends Phaser.Scene {
     const randomFrame = Phaser.Utils.Array.GetRandom(this.#fallingObjectFrames);
     const obj = this.add
       .image(Phaser.Math.RND.between(50, this.scale.width - 50), 0, ASSET_KEYS.OBJECTS, randomFrame)
-      .setScale(0.75);
+      .setScale(0.6);
     this.#fallingObjects.push(obj);
+    console.log('Frame-Name:', randomFrame);
   }
 
   #handleGameOver() {
