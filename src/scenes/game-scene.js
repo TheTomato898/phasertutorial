@@ -9,6 +9,27 @@ const textConfig = {
   strokeThickness: 2,
 };
 
+const fallingObjectTypes = {
+  basic: {
+    'gun': 0,
+    'knife': 0,
+    'e-stick': 0,
+    'microchip': 0,
+    'solar-panel': 0,
+    'key-card': 0,
+    'data-chip': 0,
+    'usb-drive': 0,
+    'goggles': 0,
+    'walkie-talkie': 0,
+    'watch': 0,
+    'tablet': 0,
+    'box': 0,
+  },
+  heal: {},
+  powerUp: {},
+  damage: {},
+}
+
 export class GameScene extends Phaser.Scene {
   #cursorKeys;
   #player;
@@ -23,6 +44,7 @@ export class GameScene extends Phaser.Scene {
   #isGameOver;
   #timerEvent;
   #livesTextGameObject;
+  #fallingObjectsType;
 
   constructor() {
     super({
@@ -138,7 +160,6 @@ export class GameScene extends Phaser.Scene {
       .image(Phaser.Math.RND.between(50, this.scale.width - 50), 0, ASSET_KEYS.OBJECTS, randomFrame)
       .setScale(0.6);
     this.#fallingObjects.push(obj);
-    console.log('Frame-Name:', randomFrame);
   }
 
   #handleGameOver() {
