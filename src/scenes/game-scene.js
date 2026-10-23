@@ -11,50 +11,49 @@ const textConfig = {
 
 const fallingObjectTypes = {
   basic: {
-    'gun': 0,
-    'knife': 0,
+    gun: 0,
+    knife: 0,
     'e-stick': 0,
-    'microchip': 0,
+    microchip: 0,
     'solar-panel': 0,
     'key-card': 0,
     'data-chip': 0,
-    'usb-drive': 0,
-    'goggles': 0,
+    goggles: 0,
     'walkie-talkie': 0,
-    'watch': 0,
-    'tablet': 0,
-    'box': 0,
-    'nre': 0,
-    'can': 0,
-    'bottle': 0,
+    watch: 0,
+    tablet: 0,
+    box: 0,
+    nre: 0,
+    can: 0,
+    bottle: 0,
     'oxygen-cylinder': 0,
     'gas-mask': 0,
-    'glove': 0,
-    'boot': 0,
-    'backpack': 0,
-    'toolbox': 0,
-    'drone': 0,
-    'coil': 0,
+    glove: 0,
+    boot: 0,
+    backpack: 0,
+    toolbox: 0,
+    drone: 0,
+    coil: 0,
     'circuit-board': 0,
     'control-board': 0,
     'memory-module': 0,
     'spray-can': 0,
-    'keys': 0,
-    'radio': 0,
+    keys: 0,
+    radio: 0,
     'combat-helmet': 0,
     'combat-vest': 0,
     'assault-helmet': 0,
-    'scrap': 0,
+    scrap: 0,
     'reactor-core': 0,
   },
   heal: {
     'heal-syringe': 0,
-    'medikit': 0,
+    medikit: 0,
   },
   powerUp: {
     'power-cell': 0,
     'usb-drive': 0,
-    'laser': 0,
+    laser: 0,
     'energy-grenade': 0,
     'light-grenade': 0,
   },
@@ -63,7 +62,7 @@ const fallingObjectTypes = {
     'credit-card': 0,
     'coin-crate': 0,
   },
-}
+};
 
 export class GameScene extends Phaser.Scene {
   #cursorKeys;
@@ -79,7 +78,6 @@ export class GameScene extends Phaser.Scene {
   #isGameOver;
   #timerEvent;
   #livesTextGameObject;
-  #fallingObjectsType;
 
   constructor() {
     super({
@@ -179,8 +177,10 @@ export class GameScene extends Phaser.Scene {
       if (obj.y > this.scale.height) {
         obj.destroy();
         this.#fallingObjects.splice(i, 1);
-        this.#misses += 1;
-        this.#livesTextGameObject.setText(`${this.#maxMisses - this.#misses}`);
+        if (obj.frame.name in fallingObjectTypes.basic || obj.frame.name in fallingObjectTypes.heal) {
+          this.#misses += 1;
+          this.#livesTextGameObject.setText(`${this.#maxMisses - this.#misses}`);
+        }
       }
     }
 
@@ -195,6 +195,7 @@ export class GameScene extends Phaser.Scene {
       .image(Phaser.Math.RND.between(50, this.scale.width - 50), 0, ASSET_KEYS.OBJECTS, randomFrame)
       .setScale(0.6);
     this.#fallingObjects.push(obj);
+    console.log(obj.frame.name);
   }
 
   #handleGameOver() {
